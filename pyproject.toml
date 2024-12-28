@@ -1,0 +1,19 @@
+[project]
+name = "crypto_currency_rates"
+version = "0.1.0"
+description = "this is api for get crypto currency rates from CoinGecko"
+authors = [
+    {name = "Mabarik667f", email = "None"},
+]
+dependencies = ["fastapi>=0.115.6", "uvicorn>=0.34.0", "motor>=3.6.0", "black>=24.10.0"]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+
+[tool.pdm]
+distribution = true
