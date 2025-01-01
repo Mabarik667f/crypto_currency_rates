@@ -5,7 +5,7 @@ description = "this is api for get crypto currency rates from CoinGecko"
 authors = [
     {name = "Mabarik667f", email = "None"},
 ]
-dependencies = ["fastapi>=0.115.6", "uvicorn>=0.34.0", "motor>=3.6.0", "black>=24.10.0"]
+dependencies = ["fastapi>=0.115.6", "uvicorn>=0.34.0", "motor>=3.6.0", "black>=24.10.0", "pydantic-settings>=2.7.1", "loguru>=0.7.3"]
 requires-python = ">=3.9"
 readme = "README.md"
 license = {text = "MIT"}
@@ -17,3 +17,4 @@ build-backend = "pdm.backend"
 
 [tool.pdm]
 distribution = true
+name="venv"

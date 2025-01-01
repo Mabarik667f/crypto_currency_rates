@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+    env_file:
+      - docker.env
+  asgi:
+    build:
+      context: "./src"
+      dockerfile: Dockerfile
+    container_name: asgi
+    env_file:
+      - docker.env
+    depends_on:
+      - mongo
+    ports:
+      - "80:80"
+volumes:
+  mongodata:

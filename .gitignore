@@ -1,5 +1,6 @@
 __pycache__
 *.json
-*.env
+docker.env
+.env
 .pdm-python
 
