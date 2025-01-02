@@ -3,6 +3,7 @@ from fastapi import APIRouter
 
 router = APIRouter(tags=["observer"], prefix="/obsere")
 
+user_id = 1 # mock object, delete after auth module
 
 @router.get("/description")
 async def data_about_observed_coins():
@@ -10,12 +11,12 @@ async def data_about_observed_coins():
 
 
 @router.post("/{coin_id}")
-async def set_observe_coin_data():
+async def observe_coin(coin_id: str):
     pass
 
 
 @router.delete("/{coin_id}")
-async def unset_observe_coin_data():
+async def unobserve_coin(coin_id: str):
     pass
 
 
