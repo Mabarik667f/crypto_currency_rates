@@ -5,6 +5,7 @@ from accounts.crud import create_user
 
 router = APIRouter(tags=["accounts"], prefix="/accounts")
 
+
 @router.post("/auth/telegram")
 async def auth(db: MongoDep):
     user_id = str(await db.accounts.count_documents({}) + 1)
