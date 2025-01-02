@@ -42,11 +42,3 @@ class BaseCoinsSet:
                 logger.info(type(e))
                 logger.info(e)
         return len(coins)
-
-
-async def coins_market():
-    async with aiohttp.ClientSession() as session:
-        url = f"{settings.BASE_COINS_API}/coins/market?sparkline=true"
-        async with session.get(url, headers=settings.BASE_HEADERS) as r:
-            body = await r.json()
-            logger.info(body)
