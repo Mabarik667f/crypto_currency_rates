@@ -34,10 +34,10 @@ async def create_collections(db: AsyncIOMotorDatabase) -> None:
 
 
 async def create_indexes(db: AsyncIOMotorDatabase) -> None:
-    coin_index = IndexModel([("id", ASCENDING)], unique=True)
+    coin_indexes = IndexModel([("id", ASCENDING)], unique=True)
+    account_indexes = IndexModel([("user_id", ASCENDING)], unique=True)
     try:
-        async for i in db.coins.list_indexes():
-            logger.info(i)
-        await db.coins.create_indexes([coin_index])
+        await db.coins.create_indexes([coin_indexes])
+        await db.accounts.create_indexes([account_indexes])
     except Exception as e:
         logger.error(e)
