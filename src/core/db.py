@@ -9,7 +9,7 @@ logger = logging.getLogger("cons")
 
 async def init_db() -> tuple[AsyncIOMotorClient, AsyncIOMotorDatabase]:
     client = AsyncIOMotorClient(settings.MONGO_DB_URI)
-    db = client.new_db
+    db = client[settings.MONGO_INITDB_DATABASE]
     ping = await db.command("ping")
     if int(ping["ok"]) != 1:
         raise Exception("ERROR connect")
@@ -25,6 +25,7 @@ async def db_struct_init(db: AsyncIOMotorDatabase) -> None:
 async def create_collections(db: AsyncIOMotorDatabase) -> None:
     try:
         await db.create_collection("coins")
+        await db.create_collection("accounts")
     except CollectionInvalid:
         ...
     except Exception as e:

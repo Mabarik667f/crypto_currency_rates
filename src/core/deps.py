@@ -4,7 +4,7 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 
 
 async def get_db(request: Request) -> AsyncIOMotorDatabase:
-    return request.app.state.db
+    return request.app.db
 
 
 MongoDep = Annotated[AsyncIOMotorDatabase, Depends(get_db)]

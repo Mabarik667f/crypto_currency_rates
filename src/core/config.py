@@ -21,6 +21,10 @@ class Settings(BaseSettings):
             f"{self.MONGO_INITDB_DATABASE}?authSource={self.MONGO_ADMIN_NAME}"
         )
 
+    @property
+    def BASE_MONGO_URI(self):
+        return "mongodb://localhost:27017"
+
     model_config = SettingsConfigDict(
         env_file=Path(__file__).resolve().parents[2] / ".env"
     )
