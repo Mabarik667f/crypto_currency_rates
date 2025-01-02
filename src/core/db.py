@@ -2,6 +2,7 @@ import logging
 from motor.motor_asyncio import AsyncIOMotorDatabase, AsyncIOMotorClient
 from pymongo.errors import CollectionInvalid
 from core.config import settings
+from pymongo import IndexModel, ASCENDING
 
 
 logger = logging.getLogger("cons")
@@ -33,4 +34,10 @@ async def create_collections(db: AsyncIOMotorDatabase) -> None:
 
 
 async def create_indexes(db: AsyncIOMotorDatabase) -> None:
-    pass
+    coin_index = IndexModel([("id", ASCENDING)], unique=True)
+    try:
+        async for i in db.coins.list_indexes():
+            logger.info(i)
+        await db.coins.create_indexes([coin_index])
+    except Exception as e:
+        logger.error(e)

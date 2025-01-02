@@ -1,4 +1,4 @@
-class CoreValidationError(Exception):
+class BaseError(Exception):
 
     def __init__(self, field, msg: str) -> None:
         self.field = field

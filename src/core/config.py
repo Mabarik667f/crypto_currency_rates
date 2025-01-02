@@ -29,5 +29,16 @@ class Settings(BaseSettings):
         env_file=Path(__file__).resolve().parents[2] / ".env"
     )
 
+    @property
+    def BASE_HEADERS(self) -> dict:
+        return {
+            "accept": "application/json",
+            "x-cg-demo-api-key": settings.COIN_GECKO_API_KEY,
+        }
+
+    @property
+    def BASE_COINS_API(self) -> str:
+        return "https://api.coingecko.com/api/v3"
+
 
 settings = Settings()  # type: ignore

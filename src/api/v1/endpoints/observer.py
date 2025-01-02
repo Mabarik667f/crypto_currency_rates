@@ -3,6 +3,7 @@ from fastapi import APIRouter
 
 router = APIRouter(tags=["observer"], prefix="/obsere")
 
+
 @router.get("/description")
 async def data_about_observed_coins():
     pass

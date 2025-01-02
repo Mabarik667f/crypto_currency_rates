@@ -1,25 +1,19 @@
-import aiohttp
 from core.deps import MongoDep
+from cryptowrapper.services import BaseCoinsSet, coins_market
+from fastapi import Response, status
+from fastapi.responses import JSONResponse
 from fastapi.routing import APIRouter
-from core import settings
 from loguru import logger
 
 router = APIRouter(tags=["cryptowrapper"], prefix="/cryptowrapper")
 
 
-@router.post('/coins')
-async def set_new_data_about_coins(db: MongoDep):
-    async with aiohttp.ClientSession() as session:
-        headers = {
-            "accept": "application/json",
-            "x-cg-demo-api-key": settings.COIN_GECKO_API_KEY
-        }
-        async with session.get("https://api.coingecko.com/api/v3/coins/list", headers=headers) as r:
-            body = await r.json()
-            logger.info(body)
-
+@router.post("/coins")
+async def set_coins(db: MongoDep):
+    coins = await BaseCoinsSet(db).set_coins()
+    return JSONResponse(status_code=status.HTTP_201_CREATED, content={"coins": coins})
 
 
 @router.put("/coins")
-async def update_all_coins_data(db: MongoDep):
-    pass
+async def all_data_about_coins(db: MongoDep, coins_ids: list[str]):
+    coins_data = await coins_market()
