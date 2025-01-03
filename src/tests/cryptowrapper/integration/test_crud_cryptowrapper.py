@@ -1,6 +1,14 @@
 import pytest
+import json
+from pytest import MonkeyPatch
+from src.cryptowrapper.schemas import BaseCoin
 from cryptowrapper.exceptions import CoinNotFoundError
-from cryptowrapper.crud import insert_coins, get_coin_by_id, get_coins_by_ids
+from cryptowrapper.crud import (
+    insert_coins,
+    get_coin_by_id,
+    get_coins_by_ids,
+    get_coins_by_query,
+)
 from loguru import logger
 
 
@@ -41,8 +49,17 @@ async def test_get_coins_by_ids(mongo_test_data):
     assert str(exc.value) == "Coins not found"
 
 
-async def get_all_coins(mongo_test_data):
+async def test_get_coins_by_query(
+    mongo_test_data, change_dir_to_tests: None, test_coins: list[BaseCoin]
+):
     _, db = mongo_test_data
+
+    coins = await get_coins_by_query(db, query="bitcoin")
+    assert coins[0].id == "bitcoin"
+    coins = await get_coins_by_query(db, query="ethereum")
+    assert coins[0].id == "ethereum"
+    coins = await get_coins_by_query(db, query="ethereu")
+    assert len(coins) == 0
 
 
 async def test_observe_coins(mongo_test_data):

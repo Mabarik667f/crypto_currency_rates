@@ -2,7 +2,7 @@ import logging
 from motor.motor_asyncio import AsyncIOMotorDatabase, AsyncIOMotorClient
 from pymongo.errors import CollectionInvalid
 from core.config import settings
-from pymongo import IndexModel, ASCENDING
+from pymongo import IndexModel, ASCENDING, TEXT
 
 
 logger = logging.getLogger("cons")
@@ -34,10 +34,13 @@ async def create_collections(db: AsyncIOMotorDatabase) -> None:
 
 
 async def create_indexes(db: AsyncIOMotorDatabase) -> None:
-    coin_indexes = IndexModel([("id", ASCENDING)], unique=True)
-    account_indexes = IndexModel([("user_id", ASCENDING)], unique=True)
+    coin_indexes = [
+        IndexModel([("id", ASCENDING)], unique=True),
+        IndexModel([("name", TEXT)]),
+    ]
+    account_indexes = [IndexModel([("user_id", ASCENDING)], unique=True)]
     try:
-        await db.coins.create_indexes([coin_indexes])
-        await db.accounts.create_indexes([account_indexes])
+        await db.coins.create_indexes(coin_indexes)
+        await db.accounts.create_indexes(account_indexes)
     except Exception as e:
         logger.error(e)

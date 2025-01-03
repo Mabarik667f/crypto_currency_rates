@@ -5,7 +5,6 @@ from loguru import logger
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from pymongo.errors import BulkWriteError
 from .exceptions import CoinApiError
-from .schemas import BaseCoin
 from .crud import insert_coins
 
 
@@ -19,16 +18,16 @@ class BaseCoinsSet:
         return await self._write_base_coins(coins)
 
     @staticmethod
-    async def _get_coins_list() -> list[BaseCoin]:
+    async def _get_coins_list() -> list[dict]:
         async with aiohttp.ClientSession() as session:
             url = f"{settings.BASE_COINS_API}/coins/list"
             async with session.get(url, headers=settings.BASE_HEADERS) as r:
                 body = await r.json()
                 if not r.ok:
                     raise CoinApiError(field="coins", msg="CoinGecko api get error")
-                return [BaseCoin(**c) for c in body]
+                return body
 
-    async def _write_base_coins(self, coins: list[BaseCoin]) -> int:
+    async def _write_base_coins(self, coins: list[dict]) -> int:
         tasks = [
             asyncio.create_task(insert_coins(self.db, coins[i : i + 500]))
             for i in range(0, len(coins), 500)

@@ -4,7 +4,7 @@ from .exceptions import CoinNotFoundError
 from loguru import logger
 
 
-async def insert_coins(db: AsyncIOMotorDatabase, coins: list[BaseCoin]):
+async def insert_coins(db: AsyncIOMotorDatabase, coins: list[dict]):
     await db.coins.insert_many(coins, ordered=False)
 
 
@@ -24,10 +24,36 @@ async def get_coins_by_ids(
     return coins
 
 
+async def get_all_coins(db: AsyncIOMotorDatabase) -> list[BaseCoin]:
+    coins = await db.coins.find({}).to_list()
+    if not coins:
+        raise CoinNotFoundError(field="coin_id", msg="Coins not found")
+    return coins
+
+
+async def get_coins_by_query(
+    db: AsyncIOMotorDatabase,
+    query: str,
+    limit: int = 5,
+) -> list[BaseCoin]:
+    coins = (
+        await db.coins.find({"$text": {"$search": query}})
+        .sort({"score": {"$meta": "textScore"}})
+        .limit(limit)
+        .to_list()
+    )
+    return (
+        [BaseCoin(id=c["id"], name=c["name"], symbol=c["symbol"]) for c in coins]
+        if coins
+        else []
+    )
+
+
 async def update_observe_coins_for_user(
     db: AsyncIOMotorDatabase, coins: list[dict], user_id: str | int
 ) -> dict:
     observed_coins = [c["_id"] for c in coins]
     await db.accounts.find_one_and_update(
-        {"user_id": str(user_id)}, {"$push": {"_id": {"$each": observed_coins}}}
+        {"user_id": str(user_id)},
+        {"$push": {"observedCoins": {"$each": observed_coins}}},
     )
