@@ -4,8 +4,7 @@ from loguru import logger
 from core.deps import MongoDep
 from accounts.crud import create_user
 from auth.services import ObtainTokenPair, refresh_tokens
-from auth.deps import TGCheckDep
-from accounts.deps import TGUserDep
+from auth.deps import TGCheckDep, TGUserDep
 
 router = APIRouter(tags=["auth"], prefix="/auth")
 

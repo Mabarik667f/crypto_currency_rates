@@ -41,6 +41,10 @@ async def test_get_coins_by_ids(mongo_test_data):
     assert str(exc.value) == "Coins not found"
 
 
+async def get_all_coins(mongo_test_data):
+    _, db = mongo_test_data
+
+
 async def test_observe_coins(mongo_test_data):
     pass
 

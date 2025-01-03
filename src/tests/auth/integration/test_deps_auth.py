@@ -3,7 +3,7 @@ from accounts.schemas import MongoUser
 from jwt.exceptions import DecodeError
 from fastapi.security.http import HTTPAuthorizationCredentials
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from accounts.deps import get_current_tg_user
+from auth.deps import get_current_tg_user
 
 
 async def test_get_current_tg_user(
