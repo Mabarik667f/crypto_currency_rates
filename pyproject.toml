@@ -5,7 +5,7 @@ description = "this is api for get crypto currency rates from CoinGecko"
 authors = [
     {name = "Mabarik667f", email = "None"},
 ]
-dependencies = ["fastapi>=0.115.6", "uvicorn>=0.34.0", "motor>=3.6.0", "black>=24.10.0", "pydantic-settings>=2.7.1", "loguru>=0.7.3", "pytest>=8.3.4", "aiohttp>=3.11.11", "httpx>=0.28.1", "pytest-asyncio>=0.25.0"]
+dependencies = ["fastapi>=0.115.6", "uvicorn>=0.34.0", "motor>=3.6.0", "black>=24.10.0", "pydantic-settings>=2.7.1", "loguru>=0.7.3", "pytest>=8.3.4", "aiohttp>=3.11.11", "httpx>=0.28.1", "pytest-asyncio>=0.25.0", "pyjwt>=2.10.1"]
 requires-python = ">=3.9"
 readme = "README.md"
 license = {text = "MIT"}

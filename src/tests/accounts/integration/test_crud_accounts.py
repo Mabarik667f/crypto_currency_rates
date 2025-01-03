@@ -7,3 +7,5 @@ async def test_create_user(mongo_test_data):
     cur_len = await db.accounts.count_documents({})
     await create_user(db, user_id)
     assert cur_len + 1 == await db.accounts.count_documents({})
+    await create_user(db, user_id)
+    assert cur_len + 1 == await db.accounts.count_documents({})

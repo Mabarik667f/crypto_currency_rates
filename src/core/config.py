@@ -5,6 +5,11 @@ from pathlib import Path
 
 class Settings(BaseSettings):
     COIN_GECKO_API_KEY: str
+    SECRET_KEY: str
+
+    ALGORITHM: str = "HS256"
+    JWT_REFRESH_EXPIRE_DAYS: int = 7
+    JWT_ACCESS_EXPIRE_MIN: int = 30
 
     MONGO_INITDB_ROOT_USERNAME: str
     MONGO_INITDB_ROOT_PASSWORD: str

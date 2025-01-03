@@ -5,6 +5,18 @@ from core import init_db, settings
 from httpx import ASGITransport, AsyncClient
 from main import app
 from loguru import logger
+from auth.schemas import TelegramHash
+from auth.exceptions import TelegramAuthError
+from auth.deps import check_auth
+
+
+def mock_check_auth(hash: TelegramHash) -> TelegramHash:
+    if hash.hash != "1111":
+        raise TelegramAuthError(field="hash", msg="Auth error")
+    return hash
+
+
+app.dependency_overrides[check_auth] = mock_check_auth
 
 
 @pytest.fixture(scope="function")
