@@ -1,13 +1,13 @@
-import asyncio
-from fastapi.requests import Request
 import pytest
 from core import init_db, settings
 from httpx import ASGITransport, AsyncClient
 from main import app
-from loguru import logger
 from auth.schemas import TelegramHash
 from auth.exceptions import TelegramAuthError
 from auth.deps import check_auth
+from loguru import logger
+
+from .fixtures import *
 
 
 def mock_check_auth(hash: TelegramHash) -> TelegramHash:

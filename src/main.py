@@ -37,12 +37,12 @@ def core_validation_exc_handler(request: Request, exc: BaseError):
 @app.exception_handler(RefreshError)
 def refresh_validation_exc_handler(request: Request, exc: RefreshError):
     return JSONResponse(
-        status_code=status.HTTP_400_BAD_REQUEST, content={"refresh": exc.value} #type: ignore
+        status_code=status.HTTP_400_BAD_REQUEST, content={"refresh": exc.value}  # type: ignore
     )
 
 
 @app.exception_handler(InvalidTokenError)
 def token_validation_exc_handler(request: Request, exc: InvalidTokenError):
     return JSONResponse(
-        status_code=status.HTTP_400_BAD_REQUEST, content={"refresh": exc.value} #type: ignore
+        status_code=status.HTTP_401_UNAUTHORIZED, content={"refresh": exc.value}  # type: ignore
     )

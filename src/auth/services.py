@@ -35,9 +35,7 @@ def create_jwt_token(payload: dict, expires_delta: timedelta) -> str:
 
 def refresh_tokens(refresh: TokenRefresh) -> TokenData:
     payload = jwt.decode(
-        refresh.refresh,
-        settings.SECRET_KEY,
-        algorithms=[settings.ALGORITHM]
+        refresh.refresh, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
     )
     user_id: str | int = payload.get("user_id")
     if payload.get("type") != "refresh" or user_id is None:

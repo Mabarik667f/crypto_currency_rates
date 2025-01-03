@@ -11,15 +11,11 @@ from core import settings
 def payload() -> dict:
     return {"user_id": 1}
 
+
 @pytest.fixture
 def payload_refresh() -> dict:
     return {"user_id": 1, "type": "refresh"}
 
-@pytest.fixture
-def get_refresh(payload_refresh: dict) -> TokenRefresh:
-    return TokenRefresh(refresh=create_jwt_token(
-            payload_refresh, timedelta(minutes=settings.JWT_REFRESH_EXPIRE_DAYS)
-        ))
 
 def test_create_access_token(payload: dict):
     access = create_jwt_token(
