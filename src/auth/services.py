@@ -1,6 +1,7 @@
 import jwt
-from .schemas import TokenData
 from core import settings
+from .schemas import TokenData, TokenRefresh
+from auth.exceptions import RefreshError
 from datetime import datetime, timedelta, timezone
 from loguru import logger
 
@@ -30,3 +31,15 @@ def create_jwt_token(payload: dict, expires_delta: timedelta) -> str:
         payload=to_encode, key=settings.SECRET_KEY, algorithm=settings.ALGORITHM
     )
     return token
+
+
+def refresh_tokens(refresh: TokenRefresh) -> TokenData:
+    payload = jwt.decode(
+        refresh.refresh,
+        settings.SECRET_KEY,
+        algorithms=[settings.ALGORITHM]
+    )
+    user_id: str | int = payload.get("user_id")
+    if payload.get("type") != "refresh" or user_id is None:
+        raise RefreshError("Invalid token")
+    return ObtainTokenPair().obtain_token_pair(payload)

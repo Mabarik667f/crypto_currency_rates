@@ -6,6 +6,10 @@ class TokenData(BaseModel):
     refresh: str
 
 
+class TokenRefresh(BaseModel):
+    refresh: str
+
+
 # mock realisation
 class TelegramHash(BaseModel):
     hash: str

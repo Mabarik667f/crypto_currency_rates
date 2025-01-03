@@ -1,4 +1,4 @@
-from auth.schemas import TelegramHash, TokenData
+from auth.schemas import TokenData
 from fastapi import APIRouter, Response, status
 from loguru import logger
 from core.deps import MongoDep
