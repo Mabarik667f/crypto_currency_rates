@@ -1,7 +1,5 @@
 import pytest
-import json
-from pytest import MonkeyPatch
-from src.cryptowrapper.schemas import BaseCoin
+from cryptowrapper.schemas import BaseCoin
 from cryptowrapper.exceptions import CoinNotFoundError
 from cryptowrapper.crud import (
     insert_coins,
@@ -9,7 +7,6 @@ from cryptowrapper.crud import (
     get_coins_by_ids,
     get_coins_by_query,
 )
-from loguru import logger
 
 
 async def test_insert_coins(mongo_test_data):
@@ -60,15 +57,3 @@ async def test_get_coins_by_query(
     assert coins[0].id == "ethereum"
     coins = await get_coins_by_query(db, query="ethereu")
     assert len(coins) == 0
-
-
-async def test_observe_coins(mongo_test_data):
-    pass
-
-
-async def test_unobserve_coins(mongo_test_data):
-    pass
-
-
-async def test_clean_coins(mongo_test_data):
-    pass

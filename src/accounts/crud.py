@@ -4,7 +4,9 @@ from .exceptions import UserNotFoundError
 
 async def create_user(db: AsyncIOMotorDatabase, user_id: int | str) -> None:
     await db.accounts.find_one_and_update(
-        {"user_id": str(user_id)}, {"$set": {"user_id": str(user_id)}}, upsert=True
+        {"user_id": str(user_id)},
+        {"$set": {"user_id": str(user_id), "observedCoins": []}},
+        upsert=True,
     )
 
 
