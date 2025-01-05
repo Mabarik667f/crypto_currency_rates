@@ -1,26 +1,10 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, status
+from observer.deps import ObserverServDep
+from loguru import logger
+
+router = APIRouter(tags=["observer"], prefix="/observer")
 
 
-router = APIRouter(tags=["observer"], prefix="/obsere")
-
-user_id = 1  # mock object, delete after auth module
-
-
-@router.get("/description")
-async def data_about_observed_coins():
-    pass
-
-
-@router.post("/{coin_id}")
-async def observe_coin(coin_id: str):
-    pass
-
-
-@router.delete("/{coin_id}")
-async def unobserve_coin(coin_id: str):
-    pass
-
-
-@router.delete("/clean")
-async def observe_clean():
-    pass
+@router.delete("/clear", status_code=status.HTTP_204_NO_CONTENT)
+async def observe_clear(service: ObserverServDep):
+    await service.clear_observer()

@@ -1,3 +1,4 @@
+from accounts.schemas import MongoBaseUser
 from auth.schemas import TokenData
 from httpx import AsyncClient
 from motor.motor_asyncio import AsyncIOMotorDatabase
@@ -21,9 +22,10 @@ async def test_auth(client: AsyncClient):
 
 
 async def test_refresh(
-    get_user_data: tuple[AsyncIOMotorDatabase, TokenData], client: AsyncClient
+    get_user_data: tuple[AsyncIOMotorDatabase, TokenData, MongoBaseUser],
+    client: AsyncClient,
 ):
-    _, tokens = get_user_data
+    _, tokens, _ = get_user_data
     headers = {"Authorization": f"Bearer {tokens.access}"}
     data = {"refresh": tokens.refresh}
 

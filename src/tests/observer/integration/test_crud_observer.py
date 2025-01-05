@@ -34,18 +34,14 @@ async def test_add_observed_coins(
     assert cnt == 4
 
 
-async def test_get_observed_coins(
-    get_observer_crud: ObserverCrud,
-    set_observed_coins
-):
+async def test_get_observed_coins(get_observer_crud: ObserverCrud, set_observed_coins):
     crud = get_observer_crud
     coins = await crud.get_observed_coins()
     assert len(coins) == 2
 
 
 async def test_clear_observed_coins(
-    get_observer_crud: ObserverCrud,
-    set_observed_coins
+    get_observer_crud: ObserverCrud, set_observed_coins
 ):
     crud = get_observer_crud
     await crud.clear_observe_coins()
@@ -57,10 +53,7 @@ async def test_clear_observed_coins(
     assert cnt == 0
 
 
-async def test_del_observed_coins(
-    get_observer_crud: ObserverCrud,
-    set_observed_coins
-):
+async def test_del_observed_coins(get_observer_crud: ObserverCrud, set_observed_coins):
     crud = get_observer_crud
     coins_ids = ["bitcoin", "bnb"]
     await crud.del_observed_coins(coins_ids)

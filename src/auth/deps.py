@@ -7,7 +7,7 @@ from auth.exceptions import TelegramAuthError
 from core import settings
 from core.deps import MongoDep
 from accounts.crud import get_user_by_id
-from accounts.schemas import MongoBaseUser, MongoUser
+from accounts.schemas import MongoBaseUser
 from loguru import logger
 
 from .schemas import TelegramHash
@@ -44,4 +44,4 @@ async def get_current_tg_user(db: MongoDep, token: AuthDep) -> MongoBaseUser:
     return MongoBaseUser(user_id=user["user_id"])
 
 
-TGUserDep = Annotated[MongoUser, Depends(get_current_tg_user)]
+TGUserDep = Annotated[MongoBaseUser, Depends(get_current_tg_user)]

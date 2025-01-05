@@ -1,7 +1,6 @@
 from accounts.schemas import MongoUser
 import pytest
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from auth.schemas import TokenData
 from cryptowrapper.schemas import BaseCoin
 from observer.services import ObserverService
 from observer.crud import ObserverCrud

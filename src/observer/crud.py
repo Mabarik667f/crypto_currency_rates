@@ -30,8 +30,7 @@ class ObserverCrud:
 
     async def del_observed_coins(self, coins_ids: list[str]):
         await self.db.accounts.update_one(
-            {"user_id": self.user_id},
-            {"$pull": {"observedCoins": {"$in": coins_ids}}}
+            {"user_id": self.user_id}, {"$pull": {"observedCoins": {"$in": coins_ids}}}
         )
 
     async def get_observed_coins(self) -> list[dict]:
@@ -72,6 +71,5 @@ class ObserverCrud:
 
     async def clear_observe_coins(self) -> None:
         await self.db.accounts.update_one(
-            {"user_id": self.user_id},
-            {"$set": {"observedCoins": []}}
+            {"user_id": self.user_id}, {"$set": {"observedCoins": []}}
         )

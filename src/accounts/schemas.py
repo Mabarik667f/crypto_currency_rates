@@ -5,6 +5,7 @@ from pydantic import BaseModel
 class MongoBaseUser(BaseModel):
     user_id: str
 
+
 class MongoUser(MongoBaseUser):
     observedCoins: list[BaseCoin]
 

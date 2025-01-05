@@ -6,6 +6,24 @@ from observer.services import ObserverService
 from loguru import logger
 
 
+async def test_clear_observed_coins_service(
+    get_observer_service: ObserverService, set_observed_coins
+):
+    service = get_observer_service
+    crud = get_observer_service.crud
+
+    cnt = await crud.get_count_observed_coins()
+    assert cnt == 3
+
+    await service.clear_observer()
+    cnt = await crud.get_count_observed_coins()
+    assert cnt == 0
+
+    await service.clear_observer()
+    cnt = await crud.get_count_observed_coins()
+    assert cnt == 0
+
+
 async def test_observe_coins(
     test_coins: list[BaseCoin], get_observer_service: ObserverService
 ):
