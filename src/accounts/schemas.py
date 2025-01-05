@@ -2,8 +2,10 @@ from cryptowrapper.schemas import BaseCoin
 from pydantic import BaseModel
 
 
-class MongoUser(BaseModel):
+class MongoBaseUser(BaseModel):
     user_id: str
+
+class MongoUser(MongoBaseUser):
     observedCoins: list[BaseCoin]
 
     @staticmethod

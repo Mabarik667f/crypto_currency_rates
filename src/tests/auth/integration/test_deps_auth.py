@@ -1,5 +1,5 @@
 import pytest
-from accounts.schemas import MongoUser
+from accounts.schemas import MongoBaseUser
 from jwt.exceptions import DecodeError
 from fastapi.security.http import HTTPAuthorizationCredentials
 from motor.motor_asyncio import AsyncIOMotorDatabase
@@ -11,7 +11,7 @@ async def test_get_current_tg_user(
 ):
     db, credentials = get_user_credentials
     user = await get_current_tg_user(db, credentials)
-    assert isinstance(user, MongoUser)
+    assert isinstance(user, MongoBaseUser)
 
     with pytest.raises(DecodeError) as exc:
         credentials.credentials = "dadada"

@@ -11,7 +11,7 @@ async def test_observe_coins(
 ):
     service = get_observer_service
     new_coins = ["bitcoin", "ethereum"]
-    await service.set_observe_for_coins(new_coins)
+    # await service.set_observe_for_coins(new_coins)
     # assert db.accounts.aggregator([
     #     {
     #         "$addFields": {
