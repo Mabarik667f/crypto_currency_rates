@@ -35,9 +35,7 @@ class ObserverCrud:
 
     async def get_observed_coins(self) -> list[dict]:
         pipeline = [
-            {
-                "$match": {"user_id": self.user_id},
-            },
+            {"$match": {"user_id": self.user_id}},
             {
                 "$lookup": {
                     "from": "coins",

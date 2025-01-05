@@ -47,13 +47,3 @@ async def get_coins_by_query(
         if coins
         else []
     )
-
-
-async def update_observe_coins_for_user(
-    db: AsyncIOMotorDatabase, coins: list[dict], user_id: str | int
-) -> dict:
-    observed_coins = [c["_id"] for c in coins]
-    await db.accounts.find_one_and_update(
-        {"user_id": str(user_id)},
-        {"$push": {"observedCoins": {"$each": observed_coins}}},
-    )

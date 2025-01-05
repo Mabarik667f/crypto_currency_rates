@@ -7,13 +7,13 @@ class MongoBaseUser(BaseModel):
 
 
 class MongoUser(MongoBaseUser):
-    observedCoins: list[BaseCoin]
+    observed_coins: list[BaseCoin]
 
     @staticmethod
     def serializer(user_data: dict) -> "MongoUser":
-        observedCoins = (
-            user_data["observedCoins"]
-            if user_data.get("observedCoins") is not None
+        observed_coins = (
+            user_data["observed_coins"]
+            if user_data.get("observed_coins") is not None
             else []
         )
-        return MongoUser(user_id=user_data["user_id"], observedCoins=observedCoins)
+        return MongoUser(user_id=user_data["user_id"], observed_coins=observed_coins)

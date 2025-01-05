@@ -2,7 +2,7 @@ from accounts.schemas import MongoUser
 import pytest
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from cryptowrapper.schemas import BaseCoin
-from observer.services import ObserverService
+from observer.services import ObserverOpChecker, ObserverService
 from observer.crud import ObserverCrud
 from loguru import logger
 
@@ -28,5 +28,13 @@ async def set_observed_coins(
     get_observer_crud: ObserverCrud, test_coins: list[BaseCoin]
 ) -> None:
     crud = get_observer_crud
-    coins_ids = ["bitcoin", "ethereum", "bnb"]
+    coins_ids = ["bitcoin", "ethereum", "litecoin"]
     await crud.add_observed_coins(coins_ids)
+
+
+@pytest.fixture(scope="function")
+async def get_observer_op_checker(
+    get_test_user: tuple[AsyncIOMotorDatabase, MongoUser],
+) -> ObserverOpChecker:
+    db, user = get_test_user
+    return ObserverOpChecker(db, user)
