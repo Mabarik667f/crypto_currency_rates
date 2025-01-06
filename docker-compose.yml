@@ -16,6 +16,8 @@ services:
       context: "./src"
       dockerfile: Dockerfile
     container_name: asgi
+    environment:
+      - DOCKER_ENV=true
     env_file:
       - docker.env
     depends_on:

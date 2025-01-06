@@ -1,6 +1,15 @@
+import os
 import urllib.parse
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pathlib import Path
+
+
+env_file = None
+
+if os.getenv("DOCKER_ENV") == "true":
+    env_file = Path(__file__).resolve().parents[2] / "docker.env"
+else:
+    env_file = Path(__file__).resolve().parents[2] / ".env"
 
 
 class Settings(BaseSettings):
@@ -30,9 +39,7 @@ class Settings(BaseSettings):
     def BASE_MONGO_URI(self):
         return "mongodb://localhost:27017"
 
-    model_config = SettingsConfigDict(
-        env_file=Path(__file__).resolve().parents[2] / ".env"
-    )
+    model_config = SettingsConfigDict(env_file=env_file)
 
     @property
     def BASE_HEADERS(self) -> dict:
