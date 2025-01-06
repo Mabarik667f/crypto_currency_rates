@@ -1,13 +1,15 @@
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from pymongo.errors import DuplicateKeyError
 from .exceptions import UserNotFoundError
 
 
 async def create_user(db: AsyncIOMotorDatabase, user_id: int | str) -> None:
-    await db.accounts.find_one_and_update(
-        {"user_id": str(user_id)},
-        {"$set": {"user_id": str(user_id), "observedCoins": []}},
-        upsert=True,
+    try:
+        await db.accounts.insert_one(
+        {"user_id": str(user_id), "observedCoins": []},
     )
+    except DuplicateKeyError: ...
+
 
 
 async def get_user_by_id(db: AsyncIOMotorDatabase, user_id: int | str) -> dict:

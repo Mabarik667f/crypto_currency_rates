@@ -3,7 +3,6 @@ from core.exceptions import BaseError
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
-
 from core import init_db, logger, log_middleware, settings  # flake8: noqa
 from api import api_router
 from jwt.exceptions import InvalidTokenError
@@ -44,5 +43,5 @@ def refresh_validation_exc_handler(request: Request, exc: RefreshError):
 @app.exception_handler(InvalidTokenError)
 def token_validation_exc_handler(request: Request, exc: InvalidTokenError):
     return JSONResponse(
-        status_code=status.HTTP_401_UNAUTHORIZED, content={"refresh": exc.value}  # type: ignore
+        status_code=status.HTTP_401_UNAUTHORIZED, content={"refresh": exc.args}
     )
