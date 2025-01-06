@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:7595cbbd4c0bcb85633a67efba130939f4f05145b2d0640ee694e281c3fed7a7"
+content_hash = "sha256:0ca07d69d2b17234a9f1a9358216d8d101e3dd282af11656bb24847af3759176"
 
 [[metadata.targets]]
 requires_python = ">=3.9"
@@ -233,6 +233,16 @@ groups = ["default"]
 files = [
     {file = "certifi-2024.12.14-py3-none-any.whl", hash = "sha256:1275f7a45be9464efc1173084eaa30f866fe2e47d389406136d332ed4967ec56"},
     {file = "certifi-2024.12.14.tar.gz", hash = "sha256:b650d30f370c2b724812bee08008be0c4163b163ddaec3f2546c1caf65f191db"},
+]
+
+[[package]]
+name = "circuitbreaker"
+version = "2.0.0"
+summary = "Python Circuit Breaker pattern implementation"
+groups = ["default"]
+files = [
+    {file = "circuitbreaker-2.0.0-py2.py3-none-any.whl", hash = "sha256:c8c6f044b616cd5066368734ce4488020392c962b4bd2869d406d883c36d9859"},
+    {file = "circuitbreaker-2.0.0.tar.gz", hash = "sha256:28110761ca81a2accbd6b33186bc8c433e69b0933d85e89f280028dbb8c1dd14"},
 ]
 
 [[package]]

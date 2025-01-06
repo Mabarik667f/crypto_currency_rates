@@ -1,6 +1,9 @@
+import aiohttp
+from datetime import timedelta
+from core import settings
 from fastapi import APIRouter, status
 from observer.deps import ObserverServDep
-from cryptowrapper.schemas import BaseCoin
+from cryptowrapper.schemas import BaseCoin, DescribedCoin
 from observer.schemas import AddObserveCoins
 from loguru import logger
 
@@ -35,3 +38,11 @@ async def add_observed_coins(
 ) -> list[BaseCoin]:
     observed_coins = await service.add_observe_for_coins(coins_ids.coins_ids)
     return observed_coins
+
+
+@router.get("/coins/describe")
+async def get_describe_obsreved_coins(
+    service: ObserverServDep,
+) -> list[DescribedCoin]:
+    described_coins = await service.get_describe_observed_coins()
+    return described_coins

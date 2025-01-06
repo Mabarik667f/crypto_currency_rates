@@ -1,7 +1,7 @@
 from observer.exceptions import ObserverLimitError
 import pytest
 from cryptowrapper.exceptions import CoinNotFoundError
-from cryptowrapper.schemas import BaseCoin
+from cryptowrapper.schemas import BaseCoin, DescribedCoin
 from observer.services import ObserverOpChecker, ObserverService
 from loguru import logger
 
@@ -135,3 +135,19 @@ async def test_add_coins_service(
     await service.add_observe_for_coins(add_coins)
     cnt = await crud.get_count_observed_coins()
     assert cnt == 5
+
+
+async def test_described_observed_coins_service(
+    get_observer_service: ObserverService,
+    set_observed_coins
+):
+    service = get_observer_service
+    crud = service.crud
+
+    coins = await service.get_describe_observed_coins()
+    assert len(coins) == 3
+    assert isinstance(coins[0], DescribedCoin)
+
+    await crud.clear_observe_coins()
+    coins = await service.get_describe_observed_coins()
+    assert len(coins) == 0

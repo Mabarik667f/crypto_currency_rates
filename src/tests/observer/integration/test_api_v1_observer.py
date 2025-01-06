@@ -1,15 +1,11 @@
 from accounts.schemas import MongoBaseUser
 from auth.schemas import TokenData
-from cryptowrapper.schemas import BaseCoin
+from cryptowrapper.schemas import DescribedCoin
 from httpx import AsyncClient
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from observer.crud import ObserverCrud
 from observer.services import ObserverService
 from loguru import logger
-
-# async def test_set_observed_tokens(test_coins: list[BaseCoin], client: AsyncClient):
-# pass
-#
 
 
 async def test_clear_observer(
@@ -80,3 +76,16 @@ async def test_add_observed_coins(
     add_coins = {"coins_ids": ["dsadasd", "litecoin", "dsda", "bitcoin", "21x", "20ex"]}
     response = await client.put("/observer/coins/add", json=add_coins, headers=headers,)
     assert len(response.json()) == 5
+
+
+async def test_describe_observed_coins(
+    client: AsyncClient,
+    get_user_data: tuple[AsyncIOMotorDatabase, TokenData, MongoBaseUser],
+    set_observed_coins,
+):
+    _, tokens, _ = get_user_data
+    headers = {"Authorization": f"Bearer {tokens.access}"}
+
+    response = await client.get("/observer/coins/describe", headers=headers)
+    assert len(response.json()) == 3
+    assert response.json()[0]["id"] != None and response.json()[0]["current_price"] != None

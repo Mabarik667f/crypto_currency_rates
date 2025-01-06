@@ -1,8 +1,9 @@
+from cryptowrapper.services import DescribedCoinsData
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from accounts.schemas import MongoBaseUser
 from cryptowrapper.crud import get_coins_by_ids
 from cryptowrapper.exceptions import CoinNotFoundError
-from cryptowrapper.schemas import BaseCoin
+from cryptowrapper.schemas import BaseCoin, DescribedCoin
 from observer.crud import ObserverCrud
 from observer.exceptions import ObserverLimitError
 from loguru import logger
@@ -14,7 +15,6 @@ class ObserverService:
         self.user = user
         self.crud = ObserverCrud(db, user.user_id)
 
-
     async def add_observe_for_coins(self, coins_ids: list[str]) -> list[BaseCoin]:
         try:
             coins_ids = await ObserverOpChecker(
@@ -23,7 +23,7 @@ class ObserverService:
             ).add_checker(coins_ids)
             await self.crud.add_observed_coins(coins_ids)
         except (CoinNotFoundError, ObserverLimitError) as e:
-            logger.error(e)
+            logger.warning(e)
         finally: return await self.get_observed_coins()
 
     async def del_observe_for_coins(self, coins_ids: list[str]) -> list[BaseCoin]:
@@ -33,7 +33,7 @@ class ObserverService:
                 self.user,
             ).del_checker(coins_ids)
             await self.crud.del_observed_coins(coins_ids)
-        except CoinNotFoundError as e: logger.error(e)
+        except CoinNotFoundError as e: logger.warning(e)
         finally: return await self.get_observed_coins()
 
     async def get_observed_coins(self) -> list[BaseCoin]:
@@ -42,6 +42,11 @@ class ObserverService:
                 BaseCoin(id=c["id"], symbol=c["symbol"], name=c["name"])
                 for c in observed_coins
             ]
+
+    async def get_describe_observed_coins(self) -> list[DescribedCoin]:
+        observed_coins = await self.crud.get_observed_coins()
+        if not observed_coins: return []
+        return await DescribedCoinsData(self.db, [c["id"] for c in observed_coins]).get_coins_data()
 
     async def clear_observer(self) -> None:
         await self.crud.clear_observe_coins()
