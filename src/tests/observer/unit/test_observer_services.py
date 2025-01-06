@@ -34,8 +34,7 @@ async def test_get_observed_coins_service(
 
 
 async def test_del_checker_service(
-    get_observer_op_checker: ObserverOpChecker,
-    set_observed_coins
+    get_observer_op_checker: ObserverOpChecker, set_observed_coins
 ):
     checker = get_observer_op_checker
     del_coins = ["ethereum"]
@@ -59,8 +58,7 @@ async def test_del_checker_service(
 
 
 async def test_del_observed_coins_service(
-    get_observer_service: ObserverService,
-    set_observed_coins
+    get_observer_service: ObserverService, set_observed_coins
 ):
     service = get_observer_service
     crud = service.crud
@@ -87,8 +85,7 @@ async def test_del_observed_coins_service(
 
 
 async def test_add_checker_service(
-    get_observer_op_checker: ObserverOpChecker,
-    set_observed_coins
+    get_observer_op_checker: ObserverOpChecker, set_observed_coins
 ):
     checker = get_observer_op_checker
 
@@ -115,8 +112,7 @@ async def test_add_checker_service(
 
 
 async def test_add_coins_service(
-    get_observer_service: ObserverService,
-    set_observed_coins
+    get_observer_service: ObserverService, set_observed_coins
 ):
     service = get_observer_service
     crud = service.crud
@@ -138,8 +134,7 @@ async def test_add_coins_service(
 
 
 async def test_described_observed_coins_service(
-    get_observer_service: ObserverService,
-    set_observed_coins
+    get_observer_service: ObserverService, set_observed_coins
 ):
     service = get_observer_service
     crud = service.crud

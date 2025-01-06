@@ -6,10 +6,10 @@ from .exceptions import UserNotFoundError
 async def create_user(db: AsyncIOMotorDatabase, user_id: int | str) -> None:
     try:
         await db.accounts.insert_one(
-        {"user_id": str(user_id), "observedCoins": []},
-    )
-    except DuplicateKeyError: ...
-
+            {"user_id": str(user_id), "observedCoins": []},
+        )
+    except DuplicateKeyError:
+        ...
 
 
 async def get_user_by_id(db: AsyncIOMotorDatabase, user_id: int | str) -> dict:

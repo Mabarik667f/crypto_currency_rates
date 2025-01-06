@@ -12,7 +12,7 @@ router = APIRouter(tags=["auth"], prefix="/auth")
 @router.post("/telegram")
 async def telegram_auth(db: MongoDep, tg: TGCheckDep) -> TokenData:
     await create_user(db, tg.user_id)
-    return ObtainTokenPair().obtain_token_pair({'user_id': tg.user_id})
+    return ObtainTokenPair().obtain_token_pair({"user_id": tg.user_id})
 
 
 @router.post("/refresh", status_code=status.HTTP_201_CREATED)

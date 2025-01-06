@@ -8,6 +8,7 @@ from observer.crud import ObserverCrud
 from observer.exceptions import ObserverLimitError
 from loguru import logger
 
+
 class ObserverService:
 
     def __init__(self, db: AsyncIOMotorDatabase, user: MongoBaseUser) -> None:
@@ -24,7 +25,8 @@ class ObserverService:
             await self.crud.add_observed_coins(coins_ids)
         except (CoinNotFoundError, ObserverLimitError) as e:
             logger.warning(e)
-        finally: return await self.get_observed_coins()
+        finally:
+            return await self.get_observed_coins()
 
     async def del_observe_for_coins(self, coins_ids: list[str]) -> list[BaseCoin]:
         try:
@@ -33,27 +35,34 @@ class ObserverService:
                 self.user,
             ).del_checker(coins_ids)
             await self.crud.del_observed_coins(coins_ids)
-        except CoinNotFoundError as e: logger.warning(e)
-        finally: return await self.get_observed_coins()
+        except CoinNotFoundError as e:
+            logger.warning(e)
+        finally:
+            return await self.get_observed_coins()
 
     async def get_observed_coins(self) -> list[BaseCoin]:
         observed_coins = await self.crud.get_observed_coins()
         return [
-                BaseCoin(id=c["id"], symbol=c["symbol"], name=c["name"])
-                for c in observed_coins
-            ]
+            BaseCoin(id=c["id"], symbol=c["symbol"], name=c["name"])
+            for c in observed_coins
+        ]
 
     async def get_describe_observed_coins(self) -> list[DescribedCoin]:
         observed_coins = await self.crud.get_observed_coins()
-        if not observed_coins: return []
-        return await DescribedCoinsData(self.db, [c["id"] for c in observed_coins]).get_coins_data()
+        if not observed_coins:
+            return []
+        return await DescribedCoinsData(
+            self.db, [c["id"] for c in observed_coins]
+        ).get_coins_data()
 
     async def clear_observer(self) -> None:
         await self.crud.clear_observe_coins()
 
+
 class ObserverOpChecker:
 
-    def __init__(self,
+    def __init__(
+        self,
         db: AsyncIOMotorDatabase,
         user: MongoBaseUser,
     ) -> None:

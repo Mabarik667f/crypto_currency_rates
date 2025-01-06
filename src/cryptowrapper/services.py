@@ -35,7 +35,6 @@ class BaseCoinsSet:
         except Exception as e:
             raise CoinApiError(field="coins", msg=f"Unexpected error: {str(e)}")
 
-
     async def _write_base_coins(self, coins: list[dict]) -> int:
         tasks = [
             asyncio.create_task(insert_coins(self.db, coins[i : i + 500]))
@@ -68,14 +67,18 @@ class DescribedCoinsData:
             return await self.coins_market_data(session)
 
     @circuit(failure_threshold=3, recovery_timeout=3, expected_exception=CoinApiError)
-    async def coins_market_data(self, session: aiohttp.ClientSession) -> list[DescribedCoin]:
+    async def coins_market_data(
+        self, session: aiohttp.ClientSession
+    ) -> list[DescribedCoin]:
         params = {
-            "vs_currency":"usd",
-            "ids": ','.join(self.coins_ids),
-            "price_change_percentage": "1h"
+            "vs_currency": "usd",
+            "ids": ",".join(self.coins_ids),
+            "price_change_percentage": "1h",
         }
         try:
-            async with session.get(self.url, headers=self.headers, params=params) as resp:
+            async with session.get(
+                self.url, headers=self.headers, params=params
+            ) as resp:
                 if not resp.ok:
                     raise CoinApiError(field="coins", msg="CoinGecko api get error")
                 body = await resp.json()
